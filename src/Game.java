@@ -1,40 +1,31 @@
-import java.util.ArrayList;
-
 public class Game implements Playable {
-	private ArrayList<Player> players;
 	public static int currentTurn;
 	private GameStatus game;
 	private Board board;
-	
+	private Players players;
+
 	public Game() {
-		players = new ArrayList<Player>();
-		players.add(new PlayerOne());
-		players.add(new PlayerTwo());
 		currentTurn = 0;
 		game = GameStatus.CONTINUE;
 		board = new Board();
+		players = new Players();
 	}
-	
+
 	public void playGame() {
 		System.out.println("Welcome to TicTacToe");
 		while(game == GameStatus.CONTINUE) {
 			currentTurn++;
 			Location turn;
-			Space player;
-			if (currentTurn % 2 == 0) {
-				turn = players.get(0).play(board);
-				player = Space.X;
-			} else {
-				turn = players.get(1).play(board);
-				player = Space.O;
-			}
-			board.place(turn, player);
-			game = board.checkForWin(player);
+			Space space = currentTurn % 2 == 0 ? Space.X : Space.O;
+			Player player = players.whoseTurn(currentTurn);
+			turn = player.play(board);
+			board.place(turn, space);
+			game = board.checkForWin(space);
 			System.out.println(board);
-			System.out.println(player + " plays " + turn);
+			System.out.println(space + " played at: " + turn);
 		}
 	}
-	
+
 	public void printResults() {
 		if (game == GameStatus.OVER && currentTurn % 2 == 0) {
 			System.out.println("Player X wins!");
