@@ -15,11 +15,11 @@ public class Game implements Playable {
 		System.out.println("Welcome to TicTacToe");
 		while(game == GameStatus.CONTINUE) {
 			currentTurn++;
-			Location turn;
+			Location location;
 			Space space = currentTurn % 2 == 0 ? Space.X : Space.O;
 			Player player = players.whoseTurn(currentTurn);
-			turn = player.play(board);
-			board.place(turn, space);
+			location = player.play(board);
+			board.place(location, space);
 			game = board.checkForWin(space);
 			System.out.println(board);
 			System.out.println(space + " played at: " + turn);
